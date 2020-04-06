@@ -29,6 +29,7 @@ import com.example.android.trackmysleepquality.R
 import com.example.android.trackmysleepquality.database.SleepDatabase
 import com.example.android.trackmysleepquality.databinding.FragmentSleepTrackerBinding
 import com.google.android.material.snackbar.Snackbar
+import timber.log.Timber
 
 /**
  * A fragment with buttons to record start and end times for sleep, which are saved in
@@ -98,11 +99,13 @@ class SleepTrackerFragment : Fragment() {
         })
 
         val adapter = SleepNightAdapter()
+        Timber.e("adapter: ${adapter}")
+
         binding.sleepList.adapter = adapter
 
         sleepTrackerViewModel.nights.observe(viewLifecycleOwner, Observer {
             it?.let {
-                adapter.data = it
+                adapter.submitList(it)
             }
         })
 
